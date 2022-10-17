@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>로그인 페이지</title>
+	</head>
+	<body>
+		<h2>여기는 로그인 페이지</h2>
+		<form method="post" action="login.do">
+			<table>
+				<tr>
+				<td>아이디</td>
+				<td><input id="input_id" type="text" name="userid"></td>
+				</tr>
+				<tr>
+				<td>비밀번호</td>
+				<td><input id="input_pw" type="password" name="pwd"></td>
+				</tr>
+				<tr>
+				<td colspan="2">
+					<input type="submit" value="로그인" onclick="return check()">
+					<input type="reset" value="취소">
+					<input type="button" value="회원가입" onclick="reg()">
+				</td>
+				</tr>
+				
+			</table>
+		</form>
+		<script>
+			function reg() {
+				//location.href("경로") 브라우저 호환문제 크롬내에서는 href() 이방식이 실행이 인된데
+				location.href="register.jsp";
+			}
+			
+			function check(){
+				if(document.getElementById("input_id").value==""){
+					alert("아이디를 적어주세요 ")
+					document.getElementById("input_id").focus();
+					return false;
+				}else if(document.getElementById("input_pw").value.length==0){
+					alert("비밀번호를 적어주세요 ") //클래스로 변경!
+					document.getElementById("input_pw").focus();
+					return false;
+				}
+				return true; //조건이 둘다 틀렸을 경우 true로 리턴함
+			}
+		</script>
+		
+		
+		
+	</body>
+</html>

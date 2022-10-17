@@ -1,0 +1,44 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ID 중복확인</title>
+	</head>
+	<body>
+		<h1>아이디 중복확인</h1>
+		<form method="get" action="idCheck.do" name="frm">
+			아이디 <input type="text" name="userid" value="${userid }">
+				<input type="submit" value="중복체크"><br>
+				<!-- 폼을 하나서 만들어서 서브밋으로 보내고 한번더 체크할 수 있도록 -->
+				<!-- 아래쪽에 스타일을 넣어서 구별을 확실히 할 수 있음 -->
+				<!-- ===================================-->
+				<c:if test="${result==1 }">
+					${userid }는 이미 사용중인 아이디입니다.
+					<script>
+						//이미 사용중인 ID가 있을때만 실행
+						opener.document.frm.userid.value="";
+					</script> 
+				</c:if>
+				<c:if test="${result==-1}">
+					${userid }는 사용할수 있는 아이디입니다.
+					<input type="button" value="사용하기" onclick="idok()">
+					
+				</c:if>
+				 
+				
+		</form>
+		<script>
+		//서버를 움직이지 않았다?→ 그러면 js로 가능
+			function idok(){
+				opener.document.frm.userid.value=document.frm.userid.value;
+				//작은창이 열려진 원창의 폼버튼중 이름이 userid의 벨류에 열려있던 값을 넣어줘
+				opener.document.frm.reid.value=document.frm.userid.value;
+				//자바스크립트 단에서 받은 정보를 부모창에 reid 폼태그에 작은창의 결과값을 넣어주세요.
+				self.close();
+			}
+		//회원가입은 다양한 변수등을 핸들링할 수 있음(야놀자가 역쿼리로 털렸데 ㅋㅋ 어처구니)
+		
+		</script>
+		
+	</body>
+</html>

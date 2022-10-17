@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>회원수정 </title>
+		<style>
+			table, td, tr{
+			border: 1px solid #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>여기는 회원정보 수정 페이지 입니다.</h1>
+		<!--7/7 10:30 회원정보수정 링크 연결 오류 -->
+		 
+		<form method="post" action="memberUpdate.do" name="frm">
+		<!-- 폼태그에 네임을 이용해서 dom생성 -->
+		<!-- 인풋은 겟방식이라 지금은 서블릿이 작동되지 암ㅎ음 -->
+			<table>
+				<tr>
+					<td> 이름 </td>
+					<td><input type="text" name="name" size="20" value="${mem.name }" readonly></td>
+				</tr>
+				<tr>
+					<td> ID </td>
+					<td><input type="text" name="userid"  value="${mem.userid }" readonly>
+					</td>
+				</tr>
+				<tr>
+					<td> 패스워드 </td>
+					<td><input type="password" name="pwd"></td>
+				</tr>
+				<tr>
+					<td>비밀번호 재확인 </td>
+					<td><input type="password" name="pwd_check" size="20"></td>
+					
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" name="email" size="20" value="${mem.email }"></td>
+				</tr>
+				<tr>
+					<td> 전화번호</td>
+					<td><input type="text" name="phone" size="20" value="${mem.phone }"></td>
+				</tr>
+				
+				<tr>
+					<td>등급</td>
+					<td><!-- if문 mem객체 admin 값이 ==0이면 -->
+						<c:choose>
+							<c:when test="${mem.admin==0 }">
+								<label><input type="radio" name="admin" value="1">관리자</label><br>
+								<label><input type="radio" name="admin" value="0" checked>일반회원</label>
+							</c:when>
+							<c:otherwise><!-- else if -->
+								<label><input type="radio" name="admin" value="1" checked>관리자</label><br>
+								<label><input type="radio" name="admin" value="0" >일반회원</label>			
+							</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>입력</td>
+					<td>
+						<input type="submit" value="정보수정" onclick="return joinCheck()">
+						<input type="reset" value="초기화">
+						<!-- 처음 있었던 값으로 돌려줌  -->
+					</td>
+				</tr>
+			</table>
+		
+		</form>
+		
+		<script>
+		//미니창이 열린 창이 오프너!
+			function idCheck(){
+				if(document.frm.userid.value==""){
+					//다큐먼트내에 이름이 frm이.userid라는 이름이 가진값이 빈값이라면
+					alert("아이디입력");
+					document.frm.userid.focus();
+					return;
+					//자바랑 다른 용도 메서드가 아닌 펑션이라 리턴이 가능함 
+					//리턴위쪽으로만 실행하고 아니면 아래 실행가능함(else if와 같은 용례)
+					//리턴값이 없으니까 값을 리턴하지 않음 
+				}
+				let url="idCheck.do?userid="+document.frm.userid.value;
+				let popupX=(window.screen.width/2)-(450/2);
+				let popupY=(window.screen.height/2)-(200/2);
+				//window.open(url,"_black_1", "toolbar=no, menubar=no, resizeable=no, scrollbar=yes, width=450, height=200, left=50, top=50");
+				window.open(url,"_black_1", "toolbar=no, menubar=no, resizeable=no, scrollbar=yes, width=450, height=200, left='+popupX+', top='+popupY+'");
+				// 7.4: 새로뜬 화면의 크기 변경 불가
+			}
+		
+		//===========유효성 체크======================
+			function joinCheck(){
+				if(document.frm.name.value.length==0){
+					alert("이름을 입력해주세요");
+					frm.name.focus();
+					return false;
+					//if안에 있는 것만 실행 false 라면 아래의 리턴이 실행 X)
+					//다 실행해야 한다면 if 선별해야 한다면 else if
+				}if(document.frm.userid.value.length==0){
+					alert("ID 입력");
+					frm.userid.focus();
+					return false;
+				}if(document.frm.pwd.value==""){
+					//벨류가 공란("")이면
+					alert("비번 입력");
+					return false;
+				}if(document.frm.pwd.value!=document.frm.pwd_check.value){
+					alert("암호 불일치");
+					return false;
+				}if(document.frm.reid.value.length==0){
+					alert("아이디 중복체크가 이루어 지지 않음");
+					frm.userid.focus();
+					return false;
+					//히든인풋(reid)에 벨류값을 체크함!  
+				}//id 자동가입을 막기위해 *캡챠*등을 쓸수있음
+				//효과적인 회원가입을 위한 정말 다양한 방법이 있음! 그걸 
+				//구현하기 위해 노력 할 수 있도록 
+				return true;
+				//문제가 없다면 트루 문제가 1개라도 있으면 false
+			}
+		</script>
+	</body>
+</html>
